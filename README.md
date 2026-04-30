@@ -55,7 +55,7 @@ nutech-api/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/rahmatrafli/assignment-api-pt-nutech-candidate.git
+git clone https://github.com/rahmatrafli1/assignment-api-pt-nutech-candidate.git
 cd assignment-api-pt-nutech-candidate
 ```
 
@@ -316,4 +316,4 @@ Aplikasi di-deploy menggunakan **Railway.app**
 
 🔗 **URL Aplikasi**: `https://nama-aplikasi-anda.up.railway.app`
 
-🔗 **URL Repository**: `https://github.com/rahmatrafli/assignment-api-pt-nutech-candidate`
+🔗 **URL Repository**: `https://github.com/rahmatrafli1/assignment-api-pt-nutech-candidate`

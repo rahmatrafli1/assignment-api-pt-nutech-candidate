@@ -65,7 +65,13 @@ cd assignment-api-pt-nutech-candidate
 npm install
 ```
 
-### 3. Setup Environment
+### 3. Install Dev Dependencies
+
+```bash
+npm install --save-dev nodemon
+```
+
+### 4. Setup Environment
 
 Buat file `.env` di root folder:
 
@@ -80,7 +86,7 @@ JWT_SECRET=your_jwt_secret_key
 JWT_EXPIRES_IN=12h
 ```
 
-### 4. Setup Database
+### 5. Setup Database
 
 Buat database PostgreSQL:
 
@@ -94,7 +100,7 @@ Jalankan DDL:
 psql -U postgres -d api_nutech -f database/ddl.sql
 ```
 
-### 5. Jalankan Server
+### 6. Jalankan Server
 
 ```bash
 # Development

@@ -6,23 +6,51 @@ require("dotenv").config();
 
 // Register
 const register = async (req, res) => {
-  const schema = Joi.object({
-    email: Joi.string().email().required(),
-    first_name: Joi.string().required(),
-    last_name: Joi.string().required(),
-    password: Joi.string().min(8).required(),
-  });
+  const { email, first_name, last_name, password } = req.body;
 
-  const { error } = schema.validate(req.body);
-  if (error) {
+  // Validasi manual
+  if (!email || email === null) {
+    return res
+      .status(400)
+      .json({ status: 102, message: "Email wajib diisi", data: null });
+  }
+
+  if (!first_name || first_name === null) {
+    return res
+      .status(400)
+      .json({ status: 102, message: "Nama Depan wajib diisi", data: null });
+  }
+
+  if (!last_name || last_name === null) {
+    return res
+      .status(400)
+      .json({ status: 102, message: "Nama Belakang wajib diisi", data: null });
+  }
+
+  if (!password || password === null) {
+    return res
+      .status(400)
+      .json({ status: 102, message: "Password wajib diisi", data: null });
+  }
+
+  // Validasi format email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
     return res.status(400).json({
       status: 102,
-      message: error.details[0].message,
+      message: "Paramter email tidak sesuai format",
       data: null,
     });
   }
 
-  const { email, first_name, last_name, password } = req.body;
+  // Validasi panjang password
+  if (password.length < 8) {
+    return res.status(400).json({
+      status: 102,
+      message: "Password minimal 8 karakter",
+      data: null,
+    });
+  }
 
   try {
     // Cek email sudah terdaftar
@@ -70,28 +98,51 @@ const register = async (req, res) => {
 
 // Login
 const login = async (req, res) => {
-  const schema = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  });
-
-  const { error } = schema.validate(req.body);
-  if (error) {
-    return res.status(400).json({
-      status: 102,
-      message: error.details[0].message,
-      data: null,
-    });
-  }
-
   const { email, password } = req.body;
 
+  // Validasi manual
+  if (!email || email === null) {
+    return res
+      .status(400)
+      .json({ status: 102, message: "Email wajib diisi", data: null });
+  }
+
+  if (!password || password === null) {
+    return res
+      .status(400)
+      .json({ status: 102, message: "Password wajib diisi", data: null });
+  }
+
+  // Validasi format email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res
+      .status(400)
+      .json({
+        status: 102,
+        message: "Parameter Email tidak sesuai format",
+        data: null,
+      });
+  }
+
+  // Validasi panjang password
+  if (password.length < 8) {
+    return res
+      .status(400)
+      .json({
+        status: 102,
+        message: "Password minimal 8 karakter",
+        data: null,
+      });
+  }
+
   try {
-    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+    // Cek email sudah terdaftar
+    const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 
-    if (result.rows.length === 0) {
+    if (checkUser.rows.length === 0) {
       return res.status(401).json({
         status: 103,
         message: "Username atau password salah",
@@ -99,7 +150,7 @@ const login = async (req, res) => {
       });
     }
 
-    const user = result.rows[0];
+    const user = checkUser.rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {

@@ -1,0 +1,22 @@
+{
+  "name": "take-home-test-backend-programmer",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "joi": "^18.1.2",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "pg": "^8.20.0",
+    "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

@@ -253,6 +253,8 @@ Header: `Authorization: Bearer <token>`
 
 ## Database Design
 
+![Database Design](database/design_database/assignment_api_programmer.png)
+
 ### Tabel Users
 
 | Column        | Type      | Keterangan       |

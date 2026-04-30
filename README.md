@@ -255,60 +255,70 @@ Header: `Authorization: Bearer <token>`
 
 ![Database Design](database/design_database/assignment_api_programmer.png)
 
+### Relasi Antar Tabel
+
+| Tabel      | Relasi      | Tabel          | Keterangan                                   |
+| ---------- | ----------- | -------------- | -------------------------------------------- |
+| `users`    | One to One  | `balance`      | 1 user memiliki 1 balance                    |
+| `users`    | One to Many | `transactions` | 1 user bisa memiliki banyak transaksi        |
+| `services` | One to Many | `transactions` | 1 service bisa digunakan di banyak transaksi |
+
 ### Tabel Users
 
-| Column        | Type      | Keterangan       |
-| ------------- | --------- | ---------------- |
-| id            | UUID      | Primary Key      |
-| email         | VARCHAR   | Unique, Not Null |
-| first_name    | VARCHAR   | Not Null         |
-| last_name     | VARCHAR   | Not Null         |
-| password      | VARCHAR   | Hashed (bcrypt)  |
-| profile_image | VARCHAR   | URL foto profil  |
-| created_at    | TIMESTAMP | -                |
-| updated_at    | TIMESTAMP | -                |
+| Column        | Type         | Constraint       | Keterangan                     |
+| ------------- | ------------ | ---------------- | ------------------------------ |
+| id            | UUID         | PK               | Primary Key auto generate      |
+| email         | VARCHAR(255) | UNIQUE, NOT NULL | Email unik untuk setiap user   |
+| first_name    | VARCHAR(100) | NOT NULL         | Nama depan user                |
+| last_name     | VARCHAR(100) | NOT NULL         | Nama belakang user             |
+| password      | VARCHAR(255) | NOT NULL         | Password di-hash dengan bcrypt |
+| profile_image | VARCHAR(500) | DEFAULT NULL     | URL foto profil user           |
+| created_at    | TIMESTAMP    | DEFAULT NOW()    | Waktu data dibuat              |
+| updated_at    | TIMESTAMP    | DEFAULT NOW()    | Waktu data diupdate            |
 
 ### Tabel Balance
 
-| Column     | Type      | Keterangan          |
-| ---------- | --------- | ------------------- |
-| id         | UUID      | Primary Key         |
-| user_id    | UUID      | Foreign Key → users |
-| balance    | NUMERIC   | Default 0           |
-| created_at | TIMESTAMP | -                   |
-| updated_at | TIMESTAMP | -                   |
+| Column     | Type          | Constraint              | Keterangan                |
+| ---------- | ------------- | ----------------------- | ------------------------- |
+| id         | UUID          | PK                      | Primary Key auto generate |
+| user_id    | UUID          | FK → users(id), CASCADE | Relasi ke tabel users     |
+| balance    | NUMERIC(15,2) | DEFAULT 0               | Saldo user                |
+| created_at | TIMESTAMP     | DEFAULT NOW()           | Waktu data dibuat         |
+| updated_at | TIMESTAMP     | DEFAULT NOW()           | Waktu data diupdate       |
 
 ### Tabel Services
 
-| Column         | Type    | Keterangan    |
-| -------------- | ------- | ------------- |
-| id             | UUID    | Primary Key   |
-| service_code   | VARCHAR | Unique        |
-| service_name   | VARCHAR | -             |
-| service_icon   | VARCHAR | URL icon      |
-| service_tariff | NUMERIC | Harga layanan |
+| Column         | Type          | Constraint       | Keterangan                       |
+| -------------- | ------------- | ---------------- | -------------------------------- |
+| id             | UUID          | PK               | Primary Key auto generate        |
+| service_code   | VARCHAR(50)   | UNIQUE, NOT NULL | Kode unik layanan (misal: PULSA) |
+| service_name   | VARCHAR(100)  | NOT NULL         | Nama layanan                     |
+| service_icon   | VARCHAR(500)  | -                | URL icon layanan                 |
+| service_tariff | NUMERIC(15,2) | NOT NULL         | Harga tarif layanan              |
+| created_at     | TIMESTAMP     | DEFAULT NOW()    | Waktu data dibuat                |
 
 ### Tabel Banners
 
-| Column       | Type    | Keterangan  |
-| ------------ | ------- | ----------- |
-| id           | UUID    | Primary Key |
-| banner_name  | VARCHAR | -           |
-| banner_image | VARCHAR | URL gambar  |
-| description  | TEXT    | -           |
+| Column       | Type         | Constraint    | Keterangan                |
+| ------------ | ------------ | ------------- | ------------------------- |
+| id           | UUID         | PK            | Primary Key auto generate |
+| banner_name  | VARCHAR(100) | NOT NULL      | Nama banner               |
+| banner_image | VARCHAR(500) | -             | URL gambar banner         |
+| description  | TEXT         | -             | Deskripsi banner          |
+| created_at   | TIMESTAMP    | DEFAULT NOW() | Waktu data dibuat         |
 
 ### Tabel Transactions
 
-| Column           | Type      | Keterangan             |
-| ---------------- | --------- | ---------------------- |
-| id               | UUID      | Primary Key            |
-| user_id          | UUID      | Foreign Key → users    |
-| service_id       | UUID      | Foreign Key → services |
-| invoice_number   | VARCHAR   | Unique                 |
-| transaction_type | VARCHAR   | TOPUP / PAYMENT        |
-| description      | VARCHAR   | -                      |
-| total_amount     | NUMERIC   | -                      |
-| created_on       | TIMESTAMP | -                      |
+| Column           | Type          | Constraint              | Keterangan                          |
+| ---------------- | ------------- | ----------------------- | ----------------------------------- |
+| id               | UUID          | PK                      | Primary Key auto generate           |
+| user_id          | UUID          | FK → users(id), CASCADE | Relasi ke tabel users               |
+| service_id       | UUID          | FK → services(id)       | Relasi ke tabel services            |
+| invoice_number   | VARCHAR(100)  | UNIQUE, NOT NULL        | Nomor invoice unik setiap transaksi |
+| transaction_type | VARCHAR(20)   | CHECK (TOPUP/PAYMENT)   | Jenis transaksi                     |
+| description      | VARCHAR(255)  | -                       | Keterangan transaksi                |
+| total_amount     | NUMERIC(15,2) | NOT NULL                | Total nominal transaksi             |
+| created_on       | TIMESTAMP     | DEFAULT NOW()           | Waktu transaksi dibuat              |
 
 ---
 

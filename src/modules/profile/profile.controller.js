@@ -66,10 +66,20 @@ const updateProfile = async (req, res) => {
 
 // Update Profile Image
 const updateProfileImage = async (req, res) => {
-  if (!req.file) {
+  // Kondisi 1: file tidak diupload sama sekali
+  if (!req.file && !req.fileValidationError) {
     return res.status(400).json({
       status: 102,
-      message: "Format Image tidak sesuai",
+      message: "Format Image tidak diupload",
+      data: null,
+    });
+  }
+
+  // Kondisi 2: file diupload tapi format salah
+  if (req.fileValidationError) {
+    return res.status(400).json({
+      status: 102,
+      message: req.fileValidationError,
       data: null,
     });
   }
@@ -91,9 +101,7 @@ const updateProfileImage = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res
-      .status(500)
-      .json({ status: 500, message: "Internal server error", data: null });
+    return res.status(500).json({ status: 500, message: "Internal server error", data: null });
   }
 };
 

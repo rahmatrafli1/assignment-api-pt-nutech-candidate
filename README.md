@@ -55,8 +55,8 @@ nutech-api/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/username/nutech-api.git
-cd nutech-api
+git clone https://github.com/rahmatrafli/assignment-api-pt-nutech-candidate.git
+cd assignment-api-pt-nutech-candidate
 ```
 
 ### 2. Install Dependencies

@@ -326,6 +326,6 @@ Header: `Authorization: Bearer <token>`
 
 Aplikasi di-deploy menggunakan **Railway.app**
 
-🔗 **URL Aplikasi**: `https://nama-aplikasi-anda.up.railway.app`
+🔗 **URL Aplikasi**: `https://assignment-api-pt-nutech-candidate-production.up.railway.app`
 
 🔗 **URL Repository**: `https://github.com/rahmatrafli1/assignment-api-pt-nutech-candidate`

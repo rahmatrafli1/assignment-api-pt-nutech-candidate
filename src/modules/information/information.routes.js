@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const auth = require('../../middleware/auth');
-const { getBanners, getServices } = require('./information.controller');
+const auth = require("../../middleware/auth");
+const { getBanners, getServices } = require("./information.controller");
 
-router.get('/banner', auth, getBanners);
-router.get('/services', auth, getServices);
+router.get("/banner", getBanners);
+router.get("/services", auth, getServices);
 
 module.exports = router;

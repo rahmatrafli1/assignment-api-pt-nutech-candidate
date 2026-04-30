@@ -35,10 +35,16 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
   const { first_name, last_name } = req.body;
 
-  if (!first_name || !last_name) {
+  if (!first_name) {
     return res.status(400).json({
       status: 102,
-      message: "first_name dan last_name wajib diisi",
+      message: "Nama Depan wajib diisi",
+      data: null,
+    });
+  } else if (!last_name) {
+    return res.status(400).json({
+      status: 102,
+      message: "Nama Belakang wajib diisi",
       data: null,
     });
   }
@@ -101,7 +107,9 @@ const updateProfileImage = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ status: 500, message: "Internal server error", data: null });
+    return res
+      .status(500)
+      .json({ status: 500, message: "Internal server error", data: null });
   }
 };
 
